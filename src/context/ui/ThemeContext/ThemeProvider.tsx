@@ -1,7 +1,7 @@
 import { createContext, useContext, ReactNode, FC, useMemo } from 'react';
 import { ThemeProvider as StyledThemeProvider } from 'styled-components';
 import { tokens } from '@/styles/tokens';
-import { GlobalStyles } from '@/styles/foundations';
+import { GlobalStyles } from '@/styles/foundations/global';
 
 // Create flexible types that allow custom values while preserving autocomplete
 type FlexibleColorScale = {
