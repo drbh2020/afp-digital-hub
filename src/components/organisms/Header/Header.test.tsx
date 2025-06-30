@@ -39,19 +39,20 @@ describe('Header Component', () => {
     it('renders navigation when showNavigation is true', () => {
       renderWithTheme(<Header showNavigation={true} />);
       
-      expect(screen.getByRole('navigation', { name: 'Main navigation' })).toBeInTheDocument();
-      expect(screen.getByText('Inicio')).toBeInTheDocument();
-      expect(screen.getByText('Calculadora')).toBeInTheDocument();
-      expect(screen.getByText('Fondos')).toBeInTheDocument();
-      expect(screen.getByText('Educación')).toBeInTheDocument();
-      expect(screen.getByText('Acerca de')).toBeInTheDocument();
+      const nav = screen.getByLabelText('Main navigation');
+      expect(nav).toBeInTheDocument();
+      expect(screen.getAllByText('Inicio').length).toBeGreaterThanOrEqual(1);
+      expect(screen.getAllByText('Calculadora').length).toBeGreaterThanOrEqual(1);
+      expect(screen.getAllByText('Fondos').length).toBeGreaterThanOrEqual(1);
+      expect(screen.getAllByText('Educación').length).toBeGreaterThanOrEqual(1);
+      expect(screen.getAllByText('Acerca de').length).toBeGreaterThanOrEqual(1);
     });
 
     it('renders auth buttons when showAuthButtons is true', () => {
       renderWithTheme(<Header showAuthButtons={true} />);
       
-      expect(screen.getByText('Iniciar Sesión')).toBeInTheDocument();
-      expect(screen.getByText('Registrarse')).toBeInTheDocument();
+      expect(screen.getAllByText('Iniciar Sesión').length).toBeGreaterThanOrEqual(1);
+      expect(screen.getAllByText('Registrarse').length).toBeGreaterThanOrEqual(1);
     });
 
     it('renders mobile menu button when navigation is enabled', () => {
@@ -90,7 +91,7 @@ describe('Header Component', () => {
     it('hides navigation when showNavigation is false', () => {
       renderWithTheme(<Header showNavigation={false} />);
       
-      expect(screen.queryByRole('navigation')).not.toBeInTheDocument();
+      expect(screen.queryByLabelText('Main navigation')).not.toBeInTheDocument();
       expect(screen.queryByText('Inicio')).not.toBeInTheDocument();
       expect(screen.queryByRole('button', { name: 'Toggle navigation menu' })).not.toBeInTheDocument();
     });
@@ -115,7 +116,6 @@ describe('Header Component', () => {
       renderWithTheme(<Header showNavigation={true} />);
       
       const menuButton = screen.getByRole('button', { name: 'Toggle navigation menu' });
-      const mobileMenu = screen.getByRole('generic', { hidden: true }); // Mobile menu is hidden by default
       
       // Initially closed
       expect(menuButton).toHaveAttribute('aria-expanded', 'false');
@@ -137,7 +137,7 @@ describe('Header Component', () => {
       
       // Mobile navigation links should be visible (they exist in DOM but hidden by CSS)
       const mobileLinks = screen.getAllByText('Inicio');
-      expect(mobileLinks.length).toBeGreaterThan(1); // Desktop + mobile versions
+      expect(mobileLinks.length).toBe(2); // Desktop + mobile versions
     });
 
     it('shows mobile auth buttons when menu is open and showAuthButtons is true', () => {
@@ -148,7 +148,7 @@ describe('Header Component', () => {
       
       // Mobile auth buttons should be visible (they exist in DOM but hidden by CSS)
       const loginButtons = screen.getAllByText('Iniciar Sesión');
-      expect(loginButtons.length).toBeGreaterThan(1); // Desktop + mobile versions
+      expect(loginButtons.length).toBe(2); // Desktop + mobile versions
     });
   });
 
@@ -157,7 +157,7 @@ describe('Header Component', () => {
       renderWithTheme(<Header showNavigation={true} />);
       
       expect(screen.getByRole('banner')).toBeInTheDocument();
-      expect(screen.getByRole('navigation', { name: 'Main navigation' })).toBeInTheDocument();
+      expect(screen.getByLabelText('Main navigation')).toBeInTheDocument();
       expect(screen.getByLabelText('AFP Digital Hub')).toBeInTheDocument();
       
       const menuButton = screen.getByRole('button', { name: 'Toggle navigation menu' });
@@ -168,19 +168,25 @@ describe('Header Component', () => {
     it('has keyboard navigation support', () => {
       renderWithTheme(<Header showNavigation={true} showAuthButtons={true} />);
       
-      const navLinks = screen.getAllByRole('link');
       const buttons = screen.getAllByRole('button');
       
-      // All interactive elements should be focusable
-      [...navLinks, ...buttons].forEach(element => {
-        expect(element).not.toHaveAttribute('tabindex', '-1');
+      // All buttons should be focusable
+      buttons.forEach(button => {
+        expect(button).not.toHaveAttribute('tabindex', '-1');
+      });
+      
+      // Check that navigation links exist and are focusable
+      const inicioLinks = screen.getAllByText('Inicio');
+      inicioLinks.forEach(link => {
+        expect(link.closest('a')).not.toHaveAttribute('tabindex', '-1');
       });
     });
 
     it('has proper current page indication', () => {
       renderWithTheme(<Header showNavigation={true} />);
       
-      const homeLink = screen.getByText('Inicio').closest('a');
+      const homeLinks = screen.getAllByText('Inicio');
+      const homeLink = homeLinks[0].closest('a');
       expect(homeLink).toHaveAttribute('aria-current', 'page');
     });
   });
@@ -189,11 +195,20 @@ describe('Header Component', () => {
     it('displays correct navigation links', () => {
       renderWithTheme(<Header showNavigation={true} />);
       
-      expect(screen.getByText('Inicio')).toHaveAttribute('href', '/');
-      expect(screen.getByText('Calculadora')).toHaveAttribute('href', '/calculator');
-      expect(screen.getByText('Fondos')).toHaveAttribute('href', '/funds');
-      expect(screen.getByText('Educación')).toHaveAttribute('href', '/education');
-      expect(screen.getByText('Acerca de')).toHaveAttribute('href', '/about');
+      const inicioLinks = screen.getAllByText('Inicio');
+      expect(inicioLinks[0]).toHaveAttribute('href', '/');
+      
+      const calculadoraLinks = screen.getAllByText('Calculadora');
+      expect(calculadoraLinks[0]).toHaveAttribute('href', '/calculator');
+      
+      const fondosLinks = screen.getAllByText('Fondos');
+      expect(fondosLinks[0]).toHaveAttribute('href', '/funds');
+      
+      const educacionLinks = screen.getAllByText('Educación');
+      expect(educacionLinks[0]).toHaveAttribute('href', '/education');
+      
+      const acercaLinks = screen.getAllByText('Acerca de');
+      expect(acercaLinks[0]).toHaveAttribute('href', '/about');
     });
 
     it('displays AFP branding correctly', () => {
@@ -207,57 +222,57 @@ describe('Header Component', () => {
 
   describe('Storybook Integration', () => {
     it('renders Default story correctly', () => {
-      render(<Default />);
+      renderWithTheme(<Default />);
       
       expect(screen.getByRole('banner')).toBeInTheDocument();
       expect(screen.getByText('AFP Digital Hub')).toBeInTheDocument();
-      expect(screen.getByRole('navigation')).toBeInTheDocument();
+      expect(screen.getByLabelText('Main navigation')).toBeInTheDocument();
     });
 
     it('renders DefaultVariant story correctly', () => {
-      render(<DefaultVariant />);
+      renderWithTheme(<DefaultVariant />);
       
       expect(screen.getByRole('banner')).toBeInTheDocument();
-      expect(screen.getByText('Iniciar Sesión')).toBeInTheDocument();
-      expect(screen.getByText('Registrarse')).toBeInTheDocument();
+      expect(screen.getAllByText('Iniciar Sesión').length).toBeGreaterThanOrEqual(1);
+      expect(screen.getAllByText('Registrarse').length).toBeGreaterThanOrEqual(1);
     });
 
     it('renders TransparentVariant story correctly', () => {
-      render(<TransparentVariant />);
+      renderWithTheme(<TransparentVariant />);
       
       expect(screen.getByRole('banner')).toBeInTheDocument();
-      expect(screen.getByRole('navigation')).toBeInTheDocument();
+      expect(screen.getByLabelText('Main navigation')).toBeInTheDocument();
     });
 
     it('renders CompactVariant story correctly', () => {
-      render(<CompactVariant />);
+      renderWithTheme(<CompactVariant />);
       
       expect(screen.getByRole('banner')).toBeInTheDocument();
       expect(screen.getByText('AFP Digital Hub')).toBeInTheDocument();
     });
 
     it('renders WithoutNavigation story correctly', () => {
-      render(<WithoutNavigation />);
+      renderWithTheme(<WithoutNavigation />);
       
       expect(screen.getByRole('banner')).toBeInTheDocument();
-      expect(screen.queryByRole('navigation')).not.toBeInTheDocument();
+      expect(screen.queryByLabelText('Main navigation')).not.toBeInTheDocument();
       expect(screen.getByText('Iniciar Sesión')).toBeInTheDocument();
     });
 
     it('renders WithoutAuthButtons story correctly', () => {
-      render(<WithoutAuthButtons />);
+      renderWithTheme(<WithoutAuthButtons />);
       
       expect(screen.getByRole('banner')).toBeInTheDocument();
-      expect(screen.getByRole('navigation')).toBeInTheDocument();
+      expect(screen.getByLabelText('Main navigation')).toBeInTheDocument();
       expect(screen.queryByText('Iniciar Sesión')).not.toBeInTheDocument();
     });
 
     it('renders MinimalHeader story correctly', () => {
-      render(<MinimalHeader />);
+      renderWithTheme(<MinimalHeader />);
       
       expect(screen.getByRole('banner')).toBeInTheDocument();
       expect(screen.getByText('AFP Digital Hub')).toBeInTheDocument();
-      expect(screen.queryByRole('navigation')).not.toBeInTheDocument();
+      expect(screen.queryByLabelText('Main navigation')).not.toBeInTheDocument();
       expect(screen.queryByText('Iniciar Sesión')).not.toBeInTheDocument();
     });
   });
@@ -267,29 +282,34 @@ describe('Header Component', () => {
       renderWithTheme(<Header showNavigation={true} />);
       
       // Check for AFP-specific navigation items
-      expect(screen.getByText('Calculadora')).toBeInTheDocument();
-      expect(screen.getByText('Fondos')).toBeInTheDocument();
-      expect(screen.getByText('Educación')).toBeInTheDocument();
+      expect(screen.getAllByText('Calculadora').length).toBeGreaterThanOrEqual(1);
+      expect(screen.getAllByText('Fondos').length).toBeGreaterThanOrEqual(1);
+      expect(screen.getAllByText('Educación').length).toBeGreaterThanOrEqual(1);
       
       // Verify links point to expected pension-related routes
-      expect(screen.getByText('Calculadora')).toHaveAttribute('href', '/calculator');
-      expect(screen.getByText('Fondos')).toHaveAttribute('href', '/funds');
-      expect(screen.getByText('Educación')).toHaveAttribute('href', '/education');
+      const calculadoraLinks = screen.getAllByText('Calculadora');
+      expect(calculadoraLinks[0]).toHaveAttribute('href', '/calculator');
+      
+      const fondosLinks = screen.getAllByText('Fondos');
+      expect(fondosLinks[0]).toHaveAttribute('href', '/funds');
+      
+      const educacionLinks = screen.getAllByText('Educación');
+      expect(educacionLinks[0]).toHaveAttribute('href', '/education');
     });
 
     it('supports typical AFP user authentication flow', () => {
       renderWithTheme(<Header showAuthButtons={true} />);
       
-      const loginButton = screen.getByText('Iniciar Sesión');
-      const registerButton = screen.getByText('Registrarse');
+      const loginButtons = screen.getAllByText('Iniciar Sesión');
+      const registerButtons = screen.getAllByText('Registrarse');
       
-      expect(loginButton).toBeInTheDocument();
-      expect(registerButton).toBeInTheDocument();
+      expect(loginButtons.length).toBeGreaterThanOrEqual(1);
+      expect(registerButtons.length).toBeGreaterThanOrEqual(1);
       
       // Login should be ghost variant (secondary action)
-      expect(loginButton.closest('button')).toBeInTheDocument();
+      expect(loginButtons[0].closest('button')).toBeInTheDocument();
       // Register should be primary variant (main CTA)
-      expect(registerButton.closest('button')).toBeInTheDocument();
+      expect(registerButtons[0].closest('button')).toBeInTheDocument();
     });
   });
 

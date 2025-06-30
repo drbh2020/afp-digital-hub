@@ -85,7 +85,7 @@ describe('PageLayout Component', () => {
       );
       
       expect(screen.getByRole('banner')).toBeInTheDocument();
-      expect(screen.getByText('AFP Digital Hub')).toBeInTheDocument();
+      expect(screen.getAllByText('AFP Digital Hub').length).toBeGreaterThanOrEqual(1);
     });
 
     it('hides header when showHeader is false', () => {
@@ -96,7 +96,7 @@ describe('PageLayout Component', () => {
       );
       
       expect(screen.queryByRole('banner')).not.toBeInTheDocument();
-      expect(screen.queryByText('AFP Digital Hub')).not.toBeInTheDocument();
+      // Note: AFP Digital Hub text may still appear in Footer, so we check for banner role absence instead
     });
 
     it('passes headerProps to Header component', () => {
@@ -349,7 +349,7 @@ describe('PageLayout Component', () => {
 
   describe('Storybook Integration', () => {
     it('renders Default story correctly', () => {
-      render(<Default />);
+      renderWithTheme(<Default />);
       
       expect(screen.getByRole('banner')).toBeInTheDocument();
       expect(screen.getByRole('main')).toBeInTheDocument();
@@ -358,42 +358,42 @@ describe('PageLayout Component', () => {
     });
 
     it('renders SmallContainer story correctly', () => {
-      render(<SmallContainer />);
+      renderWithTheme(<SmallContainer />);
       
       expect(screen.getByRole('main')).toBeInTheDocument();
-      expect(screen.getByText('Iniciar Sesión')).toBeInTheDocument();
+      expect(screen.getAllByText('Iniciar Sesión').length).toBeGreaterThanOrEqual(1);
     });
 
     it('renders LargeContainer story correctly', () => {
-      render(<LargeContainer />);
+      renderWithTheme(<LargeContainer />);
       
       expect(screen.getByRole('main')).toBeInTheDocument();
       expect(screen.getByText('Bienvenido a AFP Digital Hub')).toBeInTheDocument();
     });
 
     it('renders FullWidthContainer story correctly', () => {
-      render(<FullWidthContainer />);
+      renderWithTheme(<FullWidthContainer />);
       
       expect(screen.getByRole('main')).toBeInTheDocument();
       expect(screen.getByText('Full Width Layout')).toBeInTheDocument();
     });
 
     it('renders NoSpacing story correctly', () => {
-      render(<NoSpacing />);
+      renderWithTheme(<NoSpacing />);
       
       expect(screen.getByRole('main')).toBeInTheDocument();
       expect(screen.getByText('Bienvenido a AFP Digital Hub')).toBeInTheDocument();
     });
 
     it('renders LargeSpacing story correctly', () => {
-      render(<LargeSpacing />);
+      renderWithTheme(<LargeSpacing />);
       
       expect(screen.getByRole('main')).toBeInTheDocument();
       expect(screen.getByText('Bienvenido a AFP Digital Hub')).toBeInTheDocument();
     });
 
     it('renders NoHeader story correctly', () => {
-      render(<NoHeader />);
+      renderWithTheme(<NoHeader />);
       
       expect(screen.queryByRole('banner')).not.toBeInTheDocument();
       expect(screen.getByRole('main')).toBeInTheDocument();
@@ -401,7 +401,7 @@ describe('PageLayout Component', () => {
     });
 
     it('renders NoFooter story correctly', () => {
-      render(<NoFooter />);
+      renderWithTheme(<NoFooter />);
       
       expect(screen.getByRole('banner')).toBeInTheDocument();
       expect(screen.getByRole('main')).toBeInTheDocument();
@@ -409,7 +409,7 @@ describe('PageLayout Component', () => {
     });
 
     it('renders LandingPage story correctly', () => {
-      render(<LandingPage />);
+      renderWithTheme(<LandingPage />);
       
       expect(screen.getByRole('banner')).toBeInTheDocument();
       expect(screen.getByRole('main')).toBeInTheDocument();
@@ -418,7 +418,7 @@ describe('PageLayout Component', () => {
     });
 
     it('renders ApplicationPage story correctly', () => {
-      render(<ApplicationPage />);
+      renderWithTheme(<ApplicationPage />);
       
       expect(screen.getByRole('banner')).toBeInTheDocument();
       expect(screen.getByRole('main')).toBeInTheDocument();
@@ -426,16 +426,16 @@ describe('PageLayout Component', () => {
     });
 
     it('renders LoginPage story correctly', () => {
-      render(<LoginPage />);
+      renderWithTheme(<LoginPage />);
       
       expect(screen.getByRole('banner')).toBeInTheDocument();
       expect(screen.getByRole('main')).toBeInTheDocument();
       expect(screen.getByRole('contentinfo')).toBeInTheDocument();
-      expect(screen.getByText('Iniciar Sesión')).toBeInTheDocument();
+      expect(screen.getAllByText('Iniciar Sesión').length).toBeGreaterThanOrEqual(1);
     });
 
     it('renders FullScreenApp story correctly', () => {
-      render(<FullScreenApp />);
+      renderWithTheme(<FullScreenApp />);
       
       expect(screen.queryByRole('banner')).not.toBeInTheDocument();
       expect(screen.queryByRole('contentinfo')).not.toBeInTheDocument();

@@ -25,7 +25,9 @@ const LayoutContainer = styled.div`
   position: relative;
 `;
 
-const MainContent = styled.main<{
+const MainContent = styled.main.withConfig({
+  shouldForwardProp: (prop) => !['containerSize', 'spacing'].includes(prop),
+})<{
   containerSize: NonNullable<PageLayoutProps['containerSize']>;
   spacing: NonNullable<PageLayoutProps['spacing']>;
 }>`
@@ -81,7 +83,9 @@ const MainContent = styled.main<{
   }}
 `;
 
-const ContentWrapper = styled.div<{ 
+const ContentWrapper = styled.div.withConfig({
+  shouldForwardProp: (prop) => prop !== 'containerSize',
+})<{ 
   containerSize: NonNullable<PageLayoutProps['containerSize']>;
 }>`
   ${({ containerSize }) => {

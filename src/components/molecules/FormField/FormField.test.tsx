@@ -120,7 +120,7 @@ describe('FormField Component', () => {
         </TestWrapper>
       );
       
-      const input = screen.getByLabelText('Required Input');
+      const input = screen.getByLabelText(/Required Input/);
       expect(input).toBeRequired();
     });
   });
@@ -441,7 +441,7 @@ describe('FormField Component', () => {
       expect(screen.getByRole('alert')).toHaveTextContent('Integration error');
       
       // Input should be accessible
-      expect(screen.getByLabelText('Integration Test')).toBeInTheDocument();
+      expect(screen.getByLabelText(/Integration Test/)).toBeInTheDocument();
     });
   });
 
@@ -493,8 +493,8 @@ describe('FormField Component', () => {
         </TestWrapper>
       );
       
-      const nameInput = screen.getByLabelText('Name');
-      const emailInput = screen.getByLabelText('Email');
+      const nameInput = screen.getByLabelText(/Name/);
+      const emailInput = screen.getByLabelText(/Email/);
       const submitButton = screen.getByRole('button', { name: 'Submit' });
       
       await user.type(nameInput, 'John Doe');
@@ -548,7 +548,7 @@ describe('FormField Component', () => {
         </TestWrapper>
       );
       
-      const input = screen.getByLabelText('Monthly Salary');
+      const input = screen.getByLabelText(/Monthly Salary/);
       
       // Test invalid salary
       fireEvent.change(input, { target: { value: '500' } });

@@ -87,12 +87,17 @@ export const FormField = forwardRef<HTMLInputElement | HTMLTextAreaElement, Form
   containerClassName,
   ...inputProps
 }, ref) => {
+  // Generate unique ID if not provided
+  const inputId = inputProps.id || `input-${Math.random().toString(36).substring(2, 11)}`;
+  const descriptionId = description ? `${inputId}-description` : undefined;
+  
   return (
     <FieldContainer className={containerClassName}>
       <LabelContainer>
         <Text 
           as="label" 
           variant="bodySmall"
+          htmlFor={inputId}
         >
           {label}
           {required && (
@@ -107,6 +112,7 @@ export const FormField = forwardRef<HTMLInputElement | HTMLTextAreaElement, Form
         <DescriptionText
           as="p"
           variant="caption"
+          id={descriptionId}
         >
           {description}
         </DescriptionText>
@@ -114,8 +120,10 @@ export const FormField = forwardRef<HTMLInputElement | HTMLTextAreaElement, Form
       
       <Input
         ref={ref}
+        id={inputId}
         hideLabel // Use our custom label above
-        aria-describedby={description ? `${inputProps.id}-description` : undefined}
+        required={required}
+        aria-describedby={descriptionId}
         {...inputProps}
       />
     </FieldContainer>

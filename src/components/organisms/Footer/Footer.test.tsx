@@ -266,13 +266,13 @@ describe('Footer Component', () => {
       expect(screen.getByText('Servicios')).toBeInTheDocument();
       expect(screen.getByText('Recursos')).toBeInTheDocument();
       expect(screen.getByText('Empresa')).toBeInTheDocument();
-      expect(screen.getByText('Todos los derechos reservados')).toBeInTheDocument();
+      expect(screen.getByText(/Todos los derechos reservados/)).toBeInTheDocument();
     });
   });
 
   describe('Storybook Integration', () => {
     it('renders Default story correctly', () => {
-      render(<Default />);
+      renderWithTheme(<Default />);
       
       expect(screen.getByRole('contentinfo')).toBeInTheDocument();
       expect(screen.getByText('AFP Digital Hub')).toBeInTheDocument();
@@ -280,7 +280,7 @@ describe('Footer Component', () => {
     });
 
     it('renders DefaultVariant story correctly', () => {
-      render(<DefaultVariant />);
+      renderWithTheme(<DefaultVariant />);
       
       expect(screen.getByRole('contentinfo')).toBeInTheDocument();
       expect(screen.getByText('Calculadora de Pensión')).toBeInTheDocument();
@@ -288,7 +288,7 @@ describe('Footer Component', () => {
     });
 
     it('renders MinimalVariant story correctly', () => {
-      render(<MinimalVariant />);
+      renderWithTheme(<MinimalVariant />);
       
       expect(screen.getByRole('contentinfo')).toBeInTheDocument();
       expect(screen.getByText(`© ${currentYear} AFP Digital Hub. Todos los derechos reservados.`)).toBeInTheDocument();
@@ -296,7 +296,7 @@ describe('Footer Component', () => {
     });
 
     it('renders ExtendedVariant story correctly', () => {
-      render(<ExtendedVariant />);
+      renderWithTheme(<ExtendedVariant />);
       
       expect(screen.getByRole('contentinfo')).toBeInTheDocument();
       expect(screen.getByText('Servicios')).toBeInTheDocument();
@@ -304,14 +304,14 @@ describe('Footer Component', () => {
     });
 
     it('renders WithoutSocialLinks story correctly', () => {
-      render(<WithoutSocialLinks />);
+      renderWithTheme(<WithoutSocialLinks />);
       
       expect(screen.getByRole('contentinfo')).toBeInTheDocument();
       expect(screen.queryByLabelText('Síguenos en Facebook')).not.toBeInTheDocument();
     });
 
     it('renders WithSocialLinks story correctly', () => {
-      render(<WithSocialLinks />);
+      renderWithTheme(<WithSocialLinks />);
       
       expect(screen.getByRole('contentinfo')).toBeInTheDocument();
       expect(screen.getByLabelText('Síguenos en Facebook')).toBeInTheDocument();
