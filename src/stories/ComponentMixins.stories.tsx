@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import styled from 'styled-components';
-import { tokens, commonStyles } from '../styles/tokens';
+import { tokens, commonStyles, flexCenter, flexBetween } from '../styles';
 
 const Container = styled.div`
   padding: ${tokens.spacing[6]};
@@ -182,9 +182,7 @@ const ElevatedCard = styled.div`
 
 // Layout Examples
 const FlexCenterBox = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  ${flexCenter}
   height: 80px;
   background: ${tokens.colors.primary[500]};
   color: ${tokens.colors.white};
@@ -192,9 +190,7 @@ const FlexCenterBox = styled.div`
 `;
 
 const FlexBetweenBox = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  ${flexBetween}
   height: 60px;
   padding: ${tokens.spacing[4]};
   background: ${tokens.colors.secondary[50]};
