@@ -13,6 +13,10 @@
     "calculator"
   ],
   "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
   "scripts": {
     "develop": "gatsby develop",
     "start": "gatsby develop",
@@ -84,6 +88,7 @@
     "husky": "^9.1.7",
     "jsdom": "^26.1.0",
     "lint-staged": "^16.1.2",
+    "msw": "^2.10.2",
     "prettier": "^2.8.8",
     "storybook": "^9.0.14",
     "typescript": "^5.8.3",
