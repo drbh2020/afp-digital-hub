@@ -35,28 +35,6 @@ const config: StorybookConfig = {
         '@/context': path.resolve(__dirname, '../src/context')
       }
     }
-
-    // Support for styled-components (same as Gatsby)
-    if (config.module?.rules) {
-/*       config.module.rules.push({
-        test: /\.(ts|tsx)$/,
-        use: [
-          {
-            loader: 'babel-loader',
-            options: {
-              presets: [
-                '@babel/preset-env',
-                ['@babel/preset-react', { runtime: 'automatic' }],
-                '@babel/preset-typescript'
-              ],
-              plugins: [
-                ['babel-plugin-styled-components', { displayName: true }]
-              ]
-            }
-          }
-        ]
-      }) */
-    }  
     return config;
   },
   typescript: {
