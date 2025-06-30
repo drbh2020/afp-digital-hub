@@ -104,6 +104,7 @@ export const commonStyles = {
     border-radius: ${tokens.borderRadius.lg};
     box-shadow: ${tokens.shadows.sm};
     border: ${tokens.borderWidths[1]} solid ${tokens.colors.neutral[200]};
+    padding: ${tokens.spacing[6]};
     transition: box-shadow 0.2s ease-out, transform 0.2s ease-out;
     contain: layout;
     
@@ -125,6 +126,7 @@ export const commonStyles = {
     border-radius: ${tokens.borderRadius.lg};
     box-shadow: ${tokens.shadows.sm};
     border: ${tokens.borderWidths[1]} solid ${tokens.colors.neutral[200]};
+    padding: ${tokens.spacing[6]};
     transition: box-shadow 0.2s ease-out, transform 0.2s ease-out;
     contain: layout;
     transform: translateZ(0);
