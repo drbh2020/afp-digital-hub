@@ -38,7 +38,7 @@ const config: StorybookConfig = {
 
     // Support for styled-components (same as Gatsby)
     if (config.module?.rules) {
-      config.module.rules.push({
+/*       config.module.rules.push({
         test: /\.(ts|tsx)$/,
         use: [
           {
@@ -46,7 +46,7 @@ const config: StorybookConfig = {
             options: {
               presets: [
                 '@babel/preset-env',
-                '@babel/preset-react',
+                ['@babel/preset-react', { runtime: 'automatic' }],
                 '@babel/preset-typescript'
               ],
               plugins: [
@@ -55,7 +55,7 @@ const config: StorybookConfig = {
             }
           }
         ]
-      })
+      }) */
     }  
     return config;
   },

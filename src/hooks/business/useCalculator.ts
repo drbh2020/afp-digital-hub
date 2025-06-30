@@ -1,4 +1,4 @@
-import { calculatorSchema } from "@/schemas/calculator.schema"
+import { calculatorSchema } from "@/schemas/business/calculator.schema"
 import { useCallback, useReducer } from "react"
 
 export const useCalculator = () => {
