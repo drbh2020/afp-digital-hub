@@ -70,7 +70,7 @@ const config: GatsbyConfig = {
         pluginConfig: {
           head: false,
           respectDNT: true,
-          exclude: ["/preview/**", "/do-not-track/me/too/"]
+          exclude: ["/preview/**"]
         }
       },
     },
@@ -128,7 +128,6 @@ const config: GatsbyConfig = {
       resolve: "gatsby-plugin-typescript",
       options: {
         isTSX: true,
-        jsxPragma: "jsx",
         allExtensions: true
       }
     }
